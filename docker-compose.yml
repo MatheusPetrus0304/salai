@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: fastapi_escola_api
+    # O 'command' abaixo sobrescreve o CMD do Dockerfile para habilitar o --reload,
+    # que é ideal para o ambiente de desenvolvimento.
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      # Mapeia o diretório atual (host) para /app no contêiner.
+      # Isso permite que as alterações no código sejam refletidas em tempo real.
+      # O arquivo do banco de dados (escola.db) também será criado/lido a partir daqui.
+      - .:/app
+    ports:
+      # Mapeia a porta 8000 do seu computador para a porta 8000 do contêiner.
+      - "8000:8000"
